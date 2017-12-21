@@ -1,24 +1,31 @@
-from PIL import Image, ImageFont
 from __future__ import division
+import os
+import datetime
 
-from nakama import get_latest_one_piece_chapter_jb, get_latest_one_piece_chapter_ms
+from PIL import Image, ImageFont
+
+from .nakama import get_latest_one_piece_chapter_jb, get_latest_one_piece_chapter_ms
 
 def get_bnw_image(i_path, canvas="#000000"):
-    icon = Image.open(i_path)
+    image = Image.open(i_path)
     height = 100
     new_height = height
     new_width = int(height/image.size[1]*image.size[0])
-    icon = icon.resize((new_width, new_height), Image.ANTIALIAS)
+    image = image.resize((new_width, new_height), Image.ANTIALIAS)
 
-    canvas_width, height = 264, 176
+    canvas_width, canvas_height = 264, 176
     x_pos_1 = int((canvas_width-image.size[0])/2)
     x_pos_2 = int((canvas_width-image.size[0])/2+image.size[0])
     template = Image.new("RGB",(canvas_width, canvas_height), canvas)
     box = (x_pos_1,0,x_pos_2,image.size[1])
-    template.paste(icon, box)
+    template.paste(image, box)
     return template.convert("L")
 
 def get_images(got_op=False):
+    directory = os.path.dirname(os.path.realpath(__file__))
+
+    images = ["strawhatjollyroger.jpg","strawhatjollyroger_red.jpg","strawhatjollyroger_black.jpg"]
+    images = [os.path.join(directory, "..","images",img) for img in images]
     if got_op:
         black_active = get_bnw_image(images[2])
         red_active = get_bnw_image(images[1], canvas="#ffffff")
@@ -30,7 +37,6 @@ def get_images(got_op=False):
 
 def get_op_stat_image():
     from PIL import ImageDraw, ImageFont
-    from IPython.display import display
     recent_jb = get_latest_one_piece_chapter_jb()
     recent_ms = get_latest_one_piece_chapter_ms()
     ms_out = False
@@ -65,13 +71,14 @@ def get_op_stat_image():
         
         msg = "Yohohoho! Last released was: \n{}".format(msg)
         image_b, image_r = get_images()
-    
-    font = ImageFont.truetype("RobotoSlab-Regular.ttf", 12)
+    directory = os.path.dirname(os.path.realpath(__file__))
+    font_path = os.path.abspath(os.path.join(directory, "..","fonts","RobotoSlab-Regular.ttf"))
+    font = ImageFont.truetype(font_path, 12)
     draw = ImageDraw.Draw(image_b)
     draw.text((25, 100), msg, fill="#ffffff", font=font)
-    font = ImageFont.truetype("RobotoSlab-Regular.ttf", 10)
+    font = ImageFont.truetype(font_path, 12)
 
-    msg_r = datetime.datetime.now().strftime("[%y-%m-%d %H-%M]")
+    msg_r = datetime.datetime.now().strftime("[%y-%m-%d (%H-%M)]")
     draw = ImageDraw.Draw(image_r)
     draw.text((170, 150), msg_r, fill="#000000", font=font)
     return image_b, image_r

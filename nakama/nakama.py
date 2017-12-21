@@ -52,7 +52,7 @@ def get_latest_one_piece_chapter_jb():
     jb_request = urllib2.Request(jb_page, headers=get_headers())
     jb_response = urllib2.urlopen(jb_request)
     jb_page = jb_response.read()
-    jb_page_soup = bs4.BeautifulSoup(jb_page, "lxml")
+    jb_page_soup = bs4.BeautifulSoup(jb_page, "html.parser")
     rows = jb_page_soup.find_all("div", attrs={"class":"element"})
     text = [row.text.strip() for row in rows]
     chapter_data = []
@@ -70,7 +70,7 @@ def get_latest_one_piece_chapter_jb():
         chapter_data.append(data)
 
     most_recent = [chapter for chapter in chapter_data if chapter["days_passed"] == min([chapter_row["days_passed"] for chapter_row in chapter_data])]
-    return most_recent
+    return most_recent[0]
 
     
 def get_latest_one_piece_chapter_ms():
@@ -81,7 +81,7 @@ def get_latest_one_piece_chapter_ms():
     ms_request = urllib2.Request(ms_page, headers=get_headers())
     ms_response = urllib2.urlopen(ms_request)
     ms_page = ms_response.read()
-    ms_page_soup = bs4.BeautifulSoup(ms_page, "lxml")
+    ms_page_soup = bs4.BeautifulSoup(ms_page, "html.parser")
     
     table_rows = ms_page_soup.find_all("table")[0].find_all("td")
     
@@ -104,7 +104,7 @@ def get_latest_one_piece_chapter_ms():
         chapter_data.append(data)
 
     most_recent = [chapter for chapter in chapter_data if chapter["days_passed"] == min([chapter_row["days_passed"] for chapter_row in chapter_data]) ]
-    return most_recent
+    return most_recent[0]
 
 if __name__ == "__main__":
     pass
