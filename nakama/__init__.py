@@ -1,0 +1,1 @@
+from .nakama import get_latest_chapter_ms, get_latest_chapter_jb
