@@ -60,7 +60,11 @@ def get_latest_one_piece_chapter_jb():
         chapter_number = int(chapter.split()[1][:-1])
         chapter_name = rem_accents(chapter.split(":")[1].split("\n")[0].strip())
         release_date = chapter.split("by Jaimini's~Box~, ")[1].strip()
-        release_date = datetime.datetime.strptime(release_date, "%Y.%m.%d").date()
+        if release_date.lower() != "today":
+            release_date = datetime.datetime.strptime(release_date, "%Y.%m.%d").date()
+        else:
+            release_date = datetime.date.today()
+
         data = {
             "chapter_number": chapter_number,
             "chapter_name": chapter_name,
