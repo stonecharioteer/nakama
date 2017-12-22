@@ -94,11 +94,16 @@ def get_latest_one_piece_chapter_ms():
     
     chapter_data = []
     for pair in paired_data:
-        try:
-            stripped_date = pair[1].replace("th","").replace("nd","").replace("st","").replace("rd","")
-            stripped_date = datetime.datetime.strptime(stripped_date, "%b %d, %Y").date()
-        except ValueError:
-            raise
+        date_string = pair[1]
+        if date_string.lower() == "today":
+            stripped_date = datetime.date.today()
+        else:
+            try:
+                stripped_date = pair[1].replace("th","").replace("nd","").replace("st","").replace("rd","")
+                stripped_date = datetime.datetime.strptime(stripped_date, "%b %d, %Y").date()
+            except ValueError:
+                raise
+        
         data = {
             "chapter_number": int(pair[0].split("-")[0].strip()),
             "chapter_name": pair[0].split("-")[1].strip(),
