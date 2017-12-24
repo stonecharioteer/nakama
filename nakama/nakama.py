@@ -99,8 +99,11 @@ def get_latest_one_piece_chapter_ms():
         date_string = pair[1]
         if date_string.lower() == "today":
             stripped_date = datetime.date.today()
-        elif date_string.lower() == "1 day ago":
+        elif "day ago" in date_string.lower():
             stripped_date = datetime.date.today() - datetime.timedelta(days=1)
+        elif "days ago" in date_string.lower():
+            no_of_days = int(date_string.lower().split(" days")[0])
+            stripped_date = datetime.date.today() - datetime.timedelta(days=no_of_days)
         else:
             try:
                 stripped_date = pair[1].replace("th","").replace("nd","").replace("st","").replace("rd","")
