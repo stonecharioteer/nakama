@@ -24,10 +24,10 @@
  # THE SOFTWARE.
  #
 
-import epdif
-import Image
-import ImageDraw
-import ImageFont
+from . import epdif
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 import RPi.GPIO as GPIO
 
 # Display resolution

@@ -2,9 +2,9 @@
 import os
 
 from epd import epd2in7b
-import Image
-import ImageFont
-import ImageDraw
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw
 #import imagedata
 
 COLORED = 1
