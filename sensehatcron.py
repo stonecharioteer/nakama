@@ -29,5 +29,5 @@ if __name__ == "__main__":
                 scroll_speed = 0.01)
 
     s.set_orientation(0)
-    s.blank()
+    s.clear()
 
