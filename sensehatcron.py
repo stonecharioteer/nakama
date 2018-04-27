@@ -7,7 +7,7 @@ from nakama import get_latest_one_piece_chapter_jb, get_latest_one_piece_chapter
 if __name__ == "__main__":
     jaiminis_box = get_latest_one_piece_chapter_jb()
     s = SenseHat()
-    s.set_orientation(180)
+    s.set_rotation(180)
     if jaiminis_box["release_date"] == datetime.date.today():
         for i in range(10):
             s.show_message(
@@ -28,6 +28,6 @@ if __name__ == "__main__":
                 text_colour = [0,255,0],
                 scroll_speed = 0.01)
 
-    s.set_orientation(0)
+    s.set_rotation(0)
     s.clear()
 
